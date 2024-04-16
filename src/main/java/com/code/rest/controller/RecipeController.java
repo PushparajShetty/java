@@ -75,20 +75,25 @@ public class RecipeController {
 	
 	@PostMapping("/user/add")
 	@ResponseStatus(code=HttpStatus.CREATED)
-	public void addUser(Users u) {
+	public String addUser(Users u,Model model) {
 		
 		user.createUser(u);
+		System.out.println("hello");
+		model.addAttribute("mail", u.getEmail());
+		
+		return "user";
 	}
 	@PostMapping( value= "/user/login/{flag}")
 	public String checkUser(Login a,Model model,@PathVariable boolean flag ) {
 		if (flag) {
 		if ( user.check(a)) {
+			model.addAttribute("mail" ,a.getEmail());
+			return "user";
 			
-			model.addAttribute("flag", flag);
-			return "login";
 		}
 		
-		return "rec";
+		model.addAttribute("flag", flag);
+		return "login";
 		}
 		else {
 			if ( ad.check(a)) {

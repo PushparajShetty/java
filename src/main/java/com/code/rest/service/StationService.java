@@ -2,8 +2,10 @@ package com.code.rest.service;
 
 import java.util.List;
 
-import com.code.rest.entity.Station;
+import com.code.rest.entity.GreenStation;
+import com.code.rest.entity.PurpleStation;
 
 public interface StationService {
-	public List<Station> getStations();
+	public List<GreenStation> getGreenStations();
+	public List<PurpleStation> getPurpleStations();
 }

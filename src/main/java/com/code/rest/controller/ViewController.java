@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.code.rest.entity.GreenLaneMetroTrain;
+import com.code.rest.entity.GreenStation;
 import com.code.rest.entity.PurpleLaneMetroTrain;
+import com.code.rest.entity.PurpleStation;
 import com.code.rest.entity.Route;
 import com.code.rest.entity.Station;
-import com.code.rest.repository.StationRepository;
+import com.code.rest.repository.GreenStationRepository;
 import com.code.rest.service.MetroTrainService;
 import com.code.rest.service.RouteService;
 import com.code.rest.service.StationService;
@@ -43,8 +45,12 @@ public class ViewController {
 	@GetMapping("/2")
 	public String getStation(Model model) {
 		List<String> stationNames = new ArrayList<>();
-		List<Station> stations = st.getStations();
-		for (Station route : stations) {
+		List<GreenStation> station1 = st.getGreenStations();
+		for (GreenStation route : station1) {
+			stationNames.add(route.getName());
+		}
+		List<PurpleStation> station2 = st.getPurpleStations();
+		for (PurpleStation route : station2) {
 			stationNames.add(route.getName());
 		}
 		model.addAttribute("routes", stationNames);
