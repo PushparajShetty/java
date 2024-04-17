@@ -10,14 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.code.rest.entity.GreenLaneMetroTrain;
 import com.code.rest.entity.GreenStation;
+import com.code.rest.entity.MetroTrain;
 import com.code.rest.entity.PurpleLaneMetroTrain;
 import com.code.rest.entity.PurpleStation;
 import com.code.rest.entity.Route;
 import com.code.rest.entity.Station;
+import com.code.rest.repository.GreenLaneMetroTrainRepository;
 import com.code.rest.repository.GreenStationRepository;
+import com.code.rest.repository.PurpleLaneMetroTrainRepository;
 import com.code.rest.service.MetroTrainService;
 import com.code.rest.service.RouteService;
 import com.code.rest.service.StationService;
+import com.code.rest.service.factory.MetroTrainServiceFactory;
 
 @Controller
 @RequestMapping("/view/")
@@ -25,12 +29,16 @@ public class ViewController {
 	
 	@Autowired
 	RouteService rot;
-	
-	@Autowired
-	MetroTrainService metro;
+
 	
 	@Autowired
 	StationService st;
+	
+	@Autowired
+	GreenLaneMetroTrainRepository green;
+	
+	@Autowired
+	PurpleLaneMetroTrainRepository purple;
 	
 	@GetMapping("/1")
 	public String getRoutes(Model model) {
@@ -60,16 +68,22 @@ public class ViewController {
 	@GetMapping("/3")
 	public String getTrains(Model model) {
 		List<Long> trainNames = new ArrayList<>();
-		List<GreenLaneMetroTrain> train1 = metro.getGreen();
-		List<PurpleLaneMetroTrain> train2 = metro.getPurple();
-		
-		for (GreenLaneMetroTrain route : train1) {
-			trainNames.add(route.getMid());
+
+		// Use the factory method to get MetroTrainService instances
+		MetroTrainServiceFactory serviceFactory = new MetroTrainServiceFactory(green,purple);
+		MetroTrainService greenMetroService = serviceFactory.getService("Green");
+		List<? extends MetroTrain> train1 = greenMetroService.getTrains();
+
+		MetroTrainService purpleMetroService = serviceFactory.getService("Purple");
+		List<? extends MetroTrain> train2 = purpleMetroService.getTrains();
+
+		for (MetroTrain route : train1) {
+		    trainNames.add(route.getMid());
 		}
-		for (PurpleLaneMetroTrain route : train2) {
-			trainNames.add(route.getMid());
+		for (MetroTrain route : train2) {
+		    trainNames.add(route.getMid());
 		}
-		
+
 		model.addAttribute("routes", trainNames);
 		return "routes";
 	}

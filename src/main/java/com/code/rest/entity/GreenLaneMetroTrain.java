@@ -39,7 +39,7 @@ public class GreenLaneMetroTrain implements MetroTrain{
 	}
 
 
-	public long getMid() {
+	public Long getMid() {
 		return mid;
 	}
 

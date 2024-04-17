@@ -36,7 +36,7 @@ public class PurpleLaneMetroTrain implements MetroTrain{
 		this.endTime = endTime;
 	}
 
-	public long getMid() {
+	public Long getMid() {
 		return mid;
 	}
 

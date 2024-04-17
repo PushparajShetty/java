@@ -1,13 +1,8 @@
 package com.code.rest.service;
 
 import java.util.List;
-
-import com.code.rest.entity.GreenLaneMetroTrain;
-import com.code.rest.entity.PurpleLaneMetroTrain;
+import com.code.rest.entity.MetroTrain;
 
 public interface MetroTrainService {
-	public List<GreenLaneMetroTrain> getGreen();
-	public List<PurpleLaneMetroTrain> getPurple();
-	
-
+    List<? extends MetroTrain> getTrains();
 }
